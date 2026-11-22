@@ -1,0 +1,18 @@
+page,tag,equipment_type,section,drawing_note,source,confidence,human_review_required
+3,V-200,Feed Tank,Liquid Feed Section,MOC: SS316; capacity shown as 100 L on drawing,P&ID drawing label / equipment title,seed_ground_truth_high,True
+3,HE-200,Feed Pre-Heater,Liquid Feed Section,,P&ID drawing label / equipment title,seed_ground_truth_high,True
+3,SM-200,Static Mixer,Liquid Feed Section,,P&ID drawing label / equipment title,seed_ground_truth_high,True
+3,FRN-200,Tube Furnace,Liquid Feed Section,,P&ID drawing label / equipment title,seed_ground_truth_high,True
+4,R-300,Single Tube Reactor,Reactor-1 Section,MOC: Inconel 625,P&ID drawing label / equipment title,seed_ground_truth_high,True
+4,FRN-300,Four Zone Furnace,Reactor-1 Section,,P&ID drawing label / equipment title,seed_ground_truth_high,True
+5,R-400,Jacketed Tube Reactor,Reactor-2 Section,MOC: SS316,P&ID drawing label / equipment title,seed_ground_truth_high,True
+5,CH-400,Chiller,Reactor-2 Section,Packaged unit,P&ID drawing label / equipment title,seed_ground_truth_high,True
+5,HE-400,Product Cooler,Reactor-2 Section,,P&ID drawing label / equipment title,seed_ground_truth_high,True
+5,HE-401,Heat Exchanger,Reactor-2 Section,,P&ID drawing label / equipment title,seed_ground_truth_high,True
+5,HE-402,Heat Exchanger,Reactor-2 Section,,P&ID drawing label / equipment title,seed_ground_truth_high,True
+5,THY-400,Thermosiphon Arrangement,Reactor-2 Section,Loop updated in Rev-03,P&ID drawing label / equipment title,seed_ground_truth_high,True
+6,V-500,Gas Liquid Separator,Product Section,Capacity: 60 L; MOC: SS316,P&ID drawing label / equipment title,seed_ground_truth_high,True
+6,V-501,Product Storage Tank,Product Section,Capacity: 60 L; MOC: SS316,P&ID drawing label / equipment title,seed_ground_truth_high,True
+7,HE-600,Sample Cooler,Sample Handling System 1,,P&ID drawing label / equipment title,seed_ground_truth_high,True
+7,V-600,Knockout Pot,Sample Handling System 1,Capacity: 1 L; MOC: SS316,P&ID drawing label / equipment title,seed_ground_truth_high,True
+8,HE-700,Sample Cooler,Sample Handling System 1,,P&ID drawing label / equipment title,seed_ground_truth_high,True

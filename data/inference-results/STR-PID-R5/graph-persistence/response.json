@@ -1,0 +1,20 @@
+{
+ "nodes": 758,
+ "edges": 535,
+ "assets": 498,
+ "checks": 41,
+ "reconciliation": {
+  "bom_tags": 179,
+  "matched": 90,
+  "bom_only": 89,
+  "drawing_only": 80,
+  "recall_by_category": {
+   "Equipment": "14/17",
+   "Filter": "1/8",
+   "Heater": "2/3",
+   "Instrument": "47/99",
+   "Safety": "11/12",
+   "Valve": "15/40"
+  }
+ }
+}

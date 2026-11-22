@@ -1,0 +1,17 @@
+description,typical_tag_code
+Ball valve,BV
+Needle valve,NV
+Three way ball valve,TV
+Non return valve,NRV
+Filter,F
+Strainer,S
+Thermocouple or RTD,TE
+Pressure transmitter,PT
+Flow transmitter,FT
+Pressure differential transmitter,PDT
+Level transmitter,LT
+Weight transmitter,WT
+Temperature indicating controller,TIC
+Flow indicating controller,FIC
+Level indicating controller,LIC
+Pressure indicating controller,PIC

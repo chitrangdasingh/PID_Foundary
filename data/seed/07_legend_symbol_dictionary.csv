@@ -1,0 +1,62 @@
+sr_no,description,object_class,page,source,human_review_required
+1,Main process line,line,10,Legend sheet,False
+2,Secondary process line,line,10,Legend sheet,False
+3,Electrical heat traced,line,10,Legend sheet,False
+4,Instrument supply,signal_line,10,Legend sheet,False
+5,Pneumatic signal,signal_line,10,Legend sheet,False
+6,Electrical signal,signal_line,10,Legend sheet,False
+7,Capillary tube,signal_line,10,Legend sheet,False
+8,Software or data link,signal_line,10,Legend sheet,False
+9,Gate valve,valve,10,Legend sheet,False
+10,Angle valve,valve,10,Legend sheet,False
+11,Ball valve,valve,10,Legend sheet,False
+12,3-way ball valve,valve,10,Legend sheet,False
+13,4-way ball valve,valve,10,Legend sheet,False
+14,Globe valve,valve,10,Legend sheet,False
+15,Metering valve,valve,10,Legend sheet,False
+16,Needle valve,valve,10,Legend sheet,False
+17,Butterfly valve,valve,10,Legend sheet,False
+18,Non return valve,valve,10,Legend sheet,False
+19,Pressure reducing regulator (SC),valve/regulator,10,Legend sheet,False
+20,Back pressure regulator (SC),valve/regulator,10,Legend sheet,False
+21,Vacuum relief rupture disk,safety,10,Legend sheet,False
+22,Pressure relief rupture disk,safety,10,Legend sheet,False
+23,Pressure relief or safety valve (straight),safety,10,Legend sheet,False
+24,Pressure relief or safety valve,safety,10,Legend sheet,False
+25,Vacuum relief or safety valve,safety,10,Legend sheet,False
+26,Compressor,equipment,10,Legend sheet,False
+27,Metering pump,equipment,10,Legend sheet,False
+28,Pressure transmitter,instrument,10,Legend sheet,False
+29,Temperature element (surface mounted),instrument,10,Legend sheet,False
+30,Temperature element (internal),instrument,10,Legend sheet,False
+31,Level glass,instrument,10,Legend sheet,False
+32,Level switch,instrument,10,Legend sheet,False
+33,Level transmitter,instrument,10,Legend sheet,False
+34,Flow element (write type adjacent to symbol),instrument,10,Legend sheet,False
+35,Flow indicator,instrument,10,Legend sheet,False
+36,Self-contained mass flow controller,instrument/control,10,Legend sheet,False
+37,Skid mounted analog instrument,instrument,10,Legend sheet,False
+38,Skid mounted computer function instrument (for small installation),instrument,10,Legend sheet,False
+39,Skid mounted distributed control function (for small installation),instrument/control,10,Legend sheet,False
+40,Skid mounted PLC instrument (for small installation),instrument/control,10,Legend sheet,False
+41,Panel mounted analog instrument,instrument,10,Legend sheet,False
+42,Panel mounted computer function instrument,instrument/control,10,Legend sheet,False
+43,Panel mounted distributed control function,instrument/control,10,Legend sheet,False
+44,Panel mounted PLC instrument,instrument/control,10,Legend sheet,False
+45,Panel mounted inaccessible instrument analog,instrument,10,Legend sheet,False
+46,Panel mounted inaccessible instrument computer function,instrument/control,10,Legend sheet,False
+47,Panel mounted inaccessible instrument distributed control function,instrument/control,10,Legend sheet,False
+48,Panel mounted inaccessible instrument PLC,instrument/control,10,Legend sheet,False
+49,Auxiliary location mounted inaccessible analog instrument,instrument,10,Legend sheet,False
+50,Auxiliary location mounted inaccessible computer function instrument,instrument/control,10,Legend sheet,False
+51,Auxiliary location mounted inaccessible distributed control function,instrument/control,10,Legend sheet,False
+52,Auxiliary location mounted inaccessible PLC,instrument/control,10,Legend sheet,False
+53,Auxiliary location mounted instrument analog,instrument,10,Legend sheet,False
+54,Auxiliary location mounted instrument computer function,instrument/control,10,Legend sheet,False
+55,Auxiliary location mounted instrument distributed control function,instrument/control,10,Legend sheet,False
+56,Auxiliary location mounted instrument PLC,instrument/control,10,Legend sheet,False
+57,Inline filter,filter,10,Legend sheet,False
+58,Tee type filter,filter,10,Legend sheet,False
+59,Flexible hose,piping,10,Legend sheet,False
+60,Pneumatically actuated valve,valve/actuator,10,Legend sheet,False
+61,Hot insulation,insulation,10,Legend sheet,False
