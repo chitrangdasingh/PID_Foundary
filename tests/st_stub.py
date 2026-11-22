@@ -43,5 +43,20 @@ _st.chat_input = lambda *a, **k: None
 _st.chat_message = lambda *a, **k: _Ctx()
 _st.expander = lambda *a, **k: _Ctx()
 _st.toggle = lambda label, value=False, **k: value
+_st.checkbox = lambda label, value=False, *a, **k: value
+_st.divider = lambda *a, **k: None
 _st.secrets = {}
 _st.session_state = {}
+
+# streamlit.components.v1 stand-in: records the HTML passed to components.html so tests can inspect it
+import sys  # noqa: E402
+import types as _types  # noqa: E402
+_st.__path__ = []
+_components = _types.ModuleType("streamlit.components")
+_v1 = _types.ModuleType("streamlit.components.v1")
+_v1.rendered = []
+_v1.html = lambda body, height=None, **k: _v1.rendered.append(body)
+_components.v1 = _v1
+_st.components = _components
+sys.modules["streamlit.components"] = _components
+sys.modules["streamlit.components.v1"] = _v1

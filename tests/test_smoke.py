@@ -53,6 +53,9 @@ def test_app_imports_with_stub():
     if "app" in sys.modules:
         del sys.modules["app"]
     importlib.import_module("app")
+    # the Graph tab draws the clickable knowledge graph with BOM details for every node
+    page = stub._v1.rendered[-1] if stub._v1.rendered else ""
+    assert "BOM entry" in page and '"TIC-202"' in page
 
 
 def test_copilot_offline():
