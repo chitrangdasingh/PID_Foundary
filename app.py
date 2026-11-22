@@ -9,11 +9,13 @@ import streamlit as st
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ROOT)
-from foundry import copilot as CP, exports as EX, hierarchy as HI, pipeline as PL, store as STO, training as TR  # noqa: E402
+from foundry import copilot as CP, exports as EX, hierarchy as HI, kgview as KV, pipeline as PL, store as STO, training as TR  # noqa: E402
 
 DATA = os.path.join(ROOT, "data")
 DEFAULT_DXF = os.path.join(DATA, "sources", "Thermax_Single_Tube_Reactor_System_PID.dxf")
 DEFAULT_BOM = os.path.join(DATA, "seed", "BOM_single_tube_reactor.xlsx")
+from foundry.sources import unpack_sources  # noqa: E402
+unpack_sources(os.path.join(DATA, "sources"))
 st.set_page_config(page_title="PID Foundry", layout="wide")
 
 
@@ -68,6 +70,13 @@ tabs = st.tabs(["Overview", "Copilot", "Ingest & pipeline", "Symbols", "Text", "
 def sheet_label(n):
     s = next((x for x in sheets if x["sheet_no"] == n), {})
     return f"Sheet {n}: {s.get('title') or '-'}"
+
+
+@st.cache_data(show_spinner="Drawing the knowledge graph...", max_entries=32)
+def kg_html(pid_id, version, sheet_no, annotations, bom_path, _rev):
+    """Cached per drawing, graph version, sheet and BOM file; the layout takes a few seconds on a whole drawing."""
+    G_ = EX.load_graph(S, pid_id, version)
+    return KV.html(KV.build_payload(S, pid_id, G_, bom_path=bom_path, sheet=sheet_no, include_annotations=annotations), height=700)
 
 
 def sym_df():
@@ -253,6 +262,23 @@ with tabs[4]:
 
 # ---------------- Graph
 with tabs[5]:
+    st.header("Knowledge graph: click any asset")
+    if pid and vs.get("graph_persistence"):
+        import streamlit.components.v1 as components
+        kc = st.columns([2, 1, 1])
+        kg_sheet = kc[0].selectbox("Show", ["Whole drawing"] + [sheet_label(s["sheet_no"]) for s in sheets], key="kg_sheet")
+        kg_ann = kc[1].checkbox("Include annotations", False, key="kg_ann")
+        kg_sn = None if kg_sheet == "Whole drawing" else int(kg_sheet.split(":")[0].split()[-1])
+        bom_kv = S.kv_get(f"bom_path:{pid}", None)
+        kg_bom = bom_kv if bom_kv and os.path.exists(bom_kv) else (DEFAULT_BOM if os.path.exists(DEFAULT_BOM) else None)
+        kc[2].caption(f"BOM: {os.path.basename(kg_bom) if kg_bom else 'none loaded'}")
+        try:
+            components.html(kg_html(pid, vs["graph_persistence"], kg_sn, kg_ann, kg_bom, (S.one("SELECT COUNT(*) n FROM reviews WHERE pid_id=?", (pid,)) or {}).get("n", 0)), height=712, scrolling=False)
+            st.caption("Click a node for its BOM entry, ISA-95 hierarchy and connections; click a connection to jump to it. "
+                       "Ringed nodes have a BOM row. Drag to pan, scroll to zoom, switch between drawing and network layout.")
+        except Exception as e:  # keep the rest of the tab usable
+            st.warning(f"Knowledge graph view could not be drawn: {e}")
+    st.divider()
     st.header("Line detection and graph construction")
     sn = show_step_image("graph_construction", "grimg")
     if pid and vs["graph_persistence"]:
