@@ -21,6 +21,7 @@ adds versioning, which that design lists as missing.
 import json
 import os
 import sqlite3
+import threading
 import time
 
 SCHEMA = """
@@ -65,33 +66,60 @@ class Store:
     def __init__(self, path):
         os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
         self.path = path
-        self.db = sqlite3.connect(path, check_same_thread=False)
-        self.db.row_factory = sqlite3.Row
-        self.db.executescript(SCHEMA)
+        # One connection per thread: Streamlit serves sessions from several threads, and a single shared
+        # sqlite3 connection fails under concurrent use ("bad parameter or other API misuse").
+        self._local = threading.local()
+        self._write = threading.RLock()
+        db = self.db
+        db.executescript(SCHEMA)
         try:
-            self.db.execute(FTS)
+            db.execute(FTS)
             self.fts = True
         except sqlite3.OperationalError:
             self.fts = False
-        self.db.commit()
+        db.commit()
+
+    @property
+    def db(self):
+        c = getattr(self._local, "con", None)
+        if c is None:
+            c = sqlite3.connect(self.path, timeout=30)
+            c.row_factory = sqlite3.Row
+            self._local.con = c
+        return c
+
+    @staticmethod
+    def _args(args):
+        """Plain Python values only: numpy ints/floats are rejected by newer sqlite3 bindings."""
+        out = []
+        for a in (args or ()):
+            if hasattr(a, "item") and not isinstance(a, (str, bytes)):
+                a = a.item()
+            out.append(a)
+        return tuple(out)
 
     # generic helpers
     def q(self, sql, args=()):
-        return [dict(r) for r in self.db.execute(sql, args).fetchall()]
+        return [dict(r) for r in self.db.execute(sql, self._args(args)).fetchall()]
 
     def one(self, sql, args=()):
-        r = self.db.execute(sql, args).fetchone()
+        r = self.db.execute(sql, self._args(args)).fetchone()
         return dict(r) if r else None
 
     def x(self, sql, args=()):
-        cur = self.db.execute(sql, args); self.db.commit(); return cur
+        with self._write:
+            cur = self.db.execute(sql, self._args(args)); self.db.commit(); return cur
 
     def many(self, sql, rows):
-        self.db.executemany(sql, rows); self.db.commit()
+        with self._write:
+            self.db.executemany(sql, [self._args(r) for r in rows]); self.db.commit()
 
     def df(self, sql, args=()):
+        """DataFrame from a query, built directly (works the same on pandas 2 and 3)."""
         import pandas as pd
-        return pd.read_sql_query(sql, self.db, params=args)
+        cur = self.db.execute(sql, self._args(args))
+        cols = [d[0] for d in cur.description]
+        return pd.DataFrame([tuple(r) for r in cur.fetchall()], columns=cols)
 
     # lineage
     def start_run(self, pid_id, step, params=None, model_id=None):

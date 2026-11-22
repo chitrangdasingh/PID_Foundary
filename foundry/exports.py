@@ -77,11 +77,11 @@ def assets_xlsx(store, pid_id):
     import pandas as pd
     buf = io.BytesIO()
     with pd.ExcelWriter(buf, engine="openpyxl") as xw:
-        store.df("SELECT asset_id, parent_id, level, tag, name, asset_class, sheet_no, bom_item, match_status, confidence FROM assets WHERE pid_id=?", (pid_id,)).to_excel(xw, "Asset Hierarchy", index=False)
+        store.df("SELECT asset_id, parent_id, level, tag, name, asset_class, sheet_no, bom_item, match_status, confidence FROM assets WHERE pid_id=?", (pid_id,)).to_excel(xw, sheet_name="Asset Hierarchy", index=False)
         v = store.latest_version(pid_id, "graph_persistence")
-        store.df("SELECT edge_id, src, dst, kind, direction, confidence, status FROM graph_edges WHERE pid_id=? AND version=?", (pid_id, v)).to_excel(xw, "Relationships", index=False)
+        store.df("SELECT edge_id, src, dst, kind, direction, confidence, status FROM graph_edges WHERE pid_id=? AND version=?", (pid_id, v)).to_excel(xw, sheet_name="Relationships", index=False)
         sv = store.latest_version(pid_id, "symbol_detection")
-        store.df("SELECT symbol_id, sheet_no, cls, tag, confidence, method, status, x0, y0, x1, y1 FROM symbols WHERE pid_id=? AND version=?", (pid_id, sv)).to_excel(xw, "Detections", index=False)
+        store.df("SELECT symbol_id, sheet_no, cls, tag, confidence, method, status, x0, y0, x1, y1 FROM symbols WHERE pid_id=? AND version=?", (pid_id, sv)).to_excel(xw, sheet_name="Detections", index=False)
         rec = store.kv_get(f"recon:{pid_id}", {})
-        pd.DataFrame(rec.get("rows", [])).to_excel(xw, "BOM Reconciliation", index=False)
+        pd.DataFrame(rec.get("rows", [])).to_excel(xw, sheet_name="BOM Reconciliation", index=False)
     return buf.getvalue()
